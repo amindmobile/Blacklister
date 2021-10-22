@@ -1,5 +1,3 @@
 .idea
-.gitignore
 /settings.ini
 /venv/
-/.idea/
