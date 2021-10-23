@@ -8,10 +8,10 @@ config = configparser.ConfigParser()
 config.read('settings.ini')
 
 
-class FirewallBlocklist:
+class Blocklister:
     def __init__(self):
-        self.url = config['drop']['url']
-        self.export = config['drop']['export_file_name']
+        self.url = ''
+        self.export = ''
         self.list_name = ''
 
     def _get_url(self):
@@ -26,7 +26,7 @@ class FirewallBlocklist:
             with zip_file.open(archived_file_name) as unzipped_file:
                 return unzipped_file.readlines()
 
-    # Cleanse content from trash
+    # Cleanse trash
     def _decode_ip(self):
         decoded_ip = [ip_address.decode().strip() for ip_address in self._get_zip_contents()]
         filtered_ip = set()
@@ -38,18 +38,30 @@ class FirewallBlocklist:
                 continue
         return list(filtered_ip)
 
-    # Create firewall file for the Mikrotik
-    def get_file(self, list_name):
+    # Create firewall rules for Mikrotik
+    def _get_file(self, list_name):
         firewall_string = 'ip firewall address-list add list=DROP address='
-        self.list_name = list_name
         with open(self.export, 'w') as mikrotik:
             for subnet in self._decode_ip():
                 mikrotik_firewall_string = firewall_string+subnet
                 mikrotik.write('%s\n' % mikrotik_firewall_string)
 
+    def choose(self, list_name):
+        if list_name == 'bogon':
+            self.list_name = list_name
+            self.url = config['bogon']['url']
+            self.export = config['bogon']['export_file_name']
+            self._get_file(list_name)
+        
+        elif list_name == 'drop':
+            self.list_name = list_name
+            self.url = config['drop']['url']
+            self.export = config['drop']['export_file_name']
+            self._get_file(list_name)
 
-download = FirewallBlocklist()
-download.get_file('drop')
+
+download = Blocklister()
+download.choose('drop')
 
 
 
