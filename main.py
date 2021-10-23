@@ -52,7 +52,7 @@ class Blocklister:
             self.url = config['bogon']['url']
             self.export = config['bogon']['export_file_name']
             self._get_file(list_name)
-        
+
         elif list_name == 'drop':
             self.list_name = list_name
             self.url = config['drop']['url']
