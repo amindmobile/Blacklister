@@ -59,6 +59,7 @@ class Blocklister:
             self._get_file(list_name)
 
         else:
-            print('\nFor use please enter: python main.py list_name')
-            print(f'\nCurrently implemented lists: {listnames}')
+            print(f'\nI cant work with list "{list_name}" yet.')
+            print('For use please enter: python main.py list_name')
+            print(f'Currently implemented lists: {listnames}')
 
