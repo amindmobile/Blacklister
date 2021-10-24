@@ -41,7 +41,7 @@ class Blocklister:
 
     # Create firewall rules for Mikrotik
     def _get_file(self, list_name):
-        firewall_string = 'ip firewall address-list add list=DROP address='  # change list name
+        firewall_string = f'ip firewall address-list add list={self.list_name.upper()} address='
         with open(self.export, 'w') as mikrotik:
             for subnet in self._decode_ip():
                 mikrotik_firewall_string = firewall_string+subnet
@@ -50,14 +50,15 @@ class Blocklister:
             print(f'\nFile: {self.export} was exported and ready to use.')
 
     def choose(self, list_name):
-        if list_name == 'bogon':
+        listnames = ('bogon', 'drop')
+
+        if list_name in listnames:
             self.list_name = list_name
-            self.url = config['bogon']['url']
-            self.export = config['bogon']['export_file_name']
+            self.url = config[list_name]['url']
+            self.export = config[list_name]['export_file_name']
             self._get_file(list_name)
 
-        elif list_name == 'drop':
-            self.list_name = list_name
-            self.url = config['drop']['url']
-            self.export = config['drop']['export_file_name']
-            self._get_file(list_name)
+        else:
+            print('\nFor use please enter: python main.py list_name')
+            print(f'\nCurrently implemented lists: {listnames}')
+
