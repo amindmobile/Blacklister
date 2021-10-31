@@ -1,4 +1,4 @@
-# Mikrotik and Synology block list generator.
+# Mikrotik and Synology blacklist generator.
 
 
 This script will help you create Mikrotik (and for Synology in the nearest future) firewall rules to block unwanted 
@@ -13,6 +13,7 @@ to the list of ip addresses or networks you need to block on your devices.
 * And I will make it so that you can add such links simply when you run the script, without forcing you to edit the 
 configuration file.
 
-At the moment, the script already allows you to get a ready-made set of rules for the Mikrotik firewall: BOGON and DROP.
+At the moment: 
+* The script already allows you to get a ready-made set of rules for the Mikrotik firewall: BOGON and DROP.
 (Just wait for instructions how to add links.)
-
+* The script understands links to .zip archive format and 'cidr' file format in it. 

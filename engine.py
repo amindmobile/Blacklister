@@ -4,12 +4,18 @@ import configparser
 from io import BytesIO
 import requests
 import os.path
+import yaml
 
-config = configparser.ConfigParser()
-config.read('settings.ini')
+# config = configparser.ConfigParser()
+# config.read('settings.ini')
 
 
-class Blocklister:
+def read_yaml(path: str) -> dict:
+    with open(path) as f:
+        return yaml.load(f, yaml.FullLoader)
+
+
+class Blacklister:
     def __init__(self):
         self.url = ''
         self.export = ''
@@ -50,7 +56,8 @@ class Blocklister:
             print(f'\nFile: {self.export} was exported and ready to use.')
 
     def choose(self, list_name):
-        listnames = ('bogon', 'drop')
+        # listnames = ('bogon', 'drop')
+        istnames = config[listnames]
 
         if list_name in listnames:
             self.list_name = list_name
