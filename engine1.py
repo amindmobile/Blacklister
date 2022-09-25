@@ -12,24 +12,31 @@ def read_yaml(path: str) -> dict:
         return yaml.load(f, yaml.FullLoader)
 
 
-class Blacklister:
-    def __init__(self):
-        self.url = ''
-        self.export = ''
-        self.list_name = ''
+class Downloader:
+    # Download archive from url
+    def __init__(self, url):
+        self.url = url
 
-    def _get_url(self):
+    def get_url(self):
         response = requests.get(self.url)
-        archive = BytesIO(response.content)
+        archive = BytesIO(response.content)  # Output as stream!
         return archive
 
-    # Read file inside archive
+
+class Unarchiver:
+    # Read the file inside archive
+
+    def __init__(self, archive_name):
+        self.archivename = archive_name
+
     def _get_zip_contents(self):
-        with ZipFile(self._get_url()) as zip_file:
+        with ZipFile(self.archivename) as zip_file:
             archived_file_name = zip_file.namelist()[0]
             with zip_file.open(archived_file_name) as unzipped_file:
                 return unzipped_file.readlines()
 
+
+class Cleaner:
     # Cleanse trash
     def _decode_ip(self):
         decoded_ip = [ip_address.decode().strip() for ip_address in self._get_zip_contents()]
@@ -51,5 +58,4 @@ class Blacklister:
                 mikrotik.write('%s\n' % mikrotik_firewall_string)
         if os.path.exists(self.export):
             print(f'\nFile: {self.export} was exported and ready to use.')
-
 
