@@ -3,10 +3,17 @@ from zipfile import ZipFile
 from io import BytesIO
 import requests
 import os.path
+import yaml
 
 
 # TODO сделать конфиг со списком архивов и ссылок, чтобы каждый пользователь мог добавить свои ссылки
 archive = 'http://list.iblocklist.com/?list=lujdnbasfaaixitgmxpp&fileformat=cidr&archiveformat=zip'
+
+
+# YAML reader
+def read_yaml(path: str) -> dict:
+    with open(path) as f:
+        return yaml.load(f, yaml.FullLoader)
 
 
 # Download archive from url
@@ -50,8 +57,8 @@ def get_file(list_name, cleaned_content, export_file):
 
 # temporary short config
 result = clean(get_zip_contents(download(archive)))
-list_name = 'BOGON'
-export_file_name = 'BOGON'
+list_name = 'bogon'
+export_file_name = 'bogon.rsc'
 
 get_file(list_name, result, export_file_name)
 
