@@ -10,12 +10,6 @@ import yaml
 archive = 'http://list.iblocklist.com/?list=lujdnbasfaaixitgmxpp&fileformat=cidr&archiveformat=zip'
 
 
-# YAML reader
-def read_yaml(path: str) -> dict:
-    with open(path) as f:
-        return yaml.load(f, yaml.FullLoader)
-
-
 # Download archive from url
 def download(url):
     response = requests.get(url)
