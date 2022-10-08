@@ -1,10 +1,9 @@
 .idea
-/settings.ini
+/settings_old.ini
 /settings.yaml
 /venv/
 *.rsc
 *.pyc
-todo.py
 trash
 bogon.rsc
 config.yaml
