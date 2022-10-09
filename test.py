@@ -1,5 +1,7 @@
 from typing import Dict
 
+# http://list.iblocklist.com/?list=lujdnbasfaaixitgmxpp&fileformat=cidr&archiveformat=zip
+
 import yaml
 from dataclasses import dataclass
 from dataclass_factory import Factory
