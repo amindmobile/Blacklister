@@ -16,5 +16,7 @@ from configurator import Configurator
 con = Configurator()
 
 
-con.update('bogon', 'bogon1')
+# con.update('bogon', 'bogon1')
 # con.read("bogon")
+
+con.add("123")

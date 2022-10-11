@@ -1,7 +1,7 @@
 # https://tutswiki.com/read-write-config-files-in-python/
-
-from configparser import ConfigParser
-config_object = ConfigParser()
+import os
+from configparser import RawConfigParser
+config_object = RawConfigParser()
 
 
 class Configurator:
@@ -24,7 +24,11 @@ class Configurator:
     def update(self, oldlink, newlink):  # TODO добавить проверку что это URL
         self.links[str(oldlink)] = str(newlink)
         self.write()
-        print("URL for" + oldlink + "has been changed to: " + newlink)
+        print("URL for " + oldlink + " has been changed to: " + newlink)
+
+    def add(self, option):
+        config_object.set(self.links, str(option))
+        print(option + ' has been added to ' + self.links)
 
 
 # # TODO добавлять и изменять списки через вопрос в консоли
