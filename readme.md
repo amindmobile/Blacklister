@@ -1,19 +1,93 @@
-# Mikrotik and Synology blacklist generator.
+# IP Firewall Rule Generator
 
+## English Version
 
-This script will help you create Mikrotik (and for Synology in the nearest future) firewall rules to block unwanted 
-networks and IP addresses.
+### Description
 
-This script is supposed to work with the source lists of networks and IP addresses from 
-[this website](https://www.iblocklist.com/). Thus, you must register on the above site and receive a your personal link 
-to the list of ip addresses or networks you need to block on your devices. 
+This script downloads an archive containing a list of IP addresses in CIDR format, filters valid CIDR networks, and generates firewall rules for Mikrotik devices. The generated rules are saved to a file that can be imported into Mikrotik.
 
-* The link to the list must be added to the script configuration file. 
-* In the near future I will post instructions on how to do this. 
-* And I will make it so that you can add such links simply when you run the script, without forcing you to edit the 
-configuration file.
+### Features
 
-At the moment: 
-* The script already allows you to get a ready-made set of rules for the Mikrotik firewall: BOGON and DROP.
-(Just wait for instructions how to add links.)
-* The script understands links to .zip archive format and 'cidr' file format in it. 
+- **Download Archive**: Fetches the archive from a specified URL.
+- **Extract Contents**: Extracts the first file from the zip archive and reads its contents.
+- **Filter Valid CIDR Networks**: Checks each line to ensure it is a valid CIDR network.
+- **Generate Firewall Rules**: Creates firewall rules for Mikrotik using the filtered IP addresses.
+- **Logging**: Provides detailed logging of the process, including warnings for invalid IP addresses.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ip-firewall-rule-generator.git
+   ```
+
+2. Install required packages:
+   ```bash
+   pip install requests
+   ```
+
+### Usage
+
+1. Configure the `config` dictionary in `main.py` with your desired settings.
+   ```python
+   config = {
+       "archive_url": "https://example.com/path/to/archive.zip",
+       "list_name": "blacklisted_ips",
+       "export_file": "./firewall_rules.rsc"
+   }
+   ```
+
+2. Run the script:
+   ```bash
+   python blacklister.py
+   ```
+
+### Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## Russian Version
+
+### Описание
+
+Этот скрипт загружает архив, содержащий список IP-адресов в формате CIDR, фильтрует допустимые сети и генерирует правила брандмауэра для устройств Mikrotik. Сгенерированные правила сохраняются в файл, который может быть импортирован в Mikrotik.
+
+### Возможности
+
+- **Загрузка Архива**: Загружает архив с указанного URL.
+- **Извлечение Контента**: Извлекает первый файл из zip-архива и читает его содержимое.
+- **Фильтрация CIDR Сетей**: Проверяет каждую строку, чтобы убедиться, что она является допустимой CIDR сетью.
+- **Генерация Правил Брандмауэра**: Создает правила брандмауэра для Mikrotik на основе отфильтрованных IP-адресов.
+- **Логирование**: Ведет подробное логирование процесса, включая предупреждения о недопустимых IP-адресах.
+
+### Установка
+
+1. Клонируйте репозиторий:
+   ```bash
+   git clone https://github.com/amindmobile/blacklister.git
+   ```
+
+2. Установите необходимые пакеты:
+   ```bash
+   pip install requests
+   ```
+
+### Использование
+
+1. Настройте словарь `config` в файле `main.py` по вашему усмотрению.
+   ```python
+   config = {
+       "archive_url": "https://example.com/path/to/archive.zip",
+       "list_name": "blacklisted_ips",
+       "export_file": "./firewall_rules.rsc"
+   }
+   ```
+
+2. Запустите скрипт:
+   ```bash
+   python blacklister.py
+   ```
+
+### Вклад
+
+Вклады приветствуются! Пожалуйста, откройте проблему или отправьте pull request.
