@@ -1,0 +1,7 @@
+blocklists:
+  - name: "bogon"
+    url: "http://list.iblocklist.com/?list=lujdnbasfaaixitgmxpp&fileformat=cidr&archiveformat=zip"
+    output_file: "bogon.rsc"
+  - name: "spamhaus"
+    url: "https://www.spamhaus.org/drop/drop.txt"
+    output_file: "spamhaus.rsc"
