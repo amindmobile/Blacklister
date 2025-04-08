@@ -1,93 +1,169 @@
-# IP Firewall Rule Generator
+```markdown
+# Blocklist Processor
 
-## English Version
+Python скрипт для загрузки и обработки списков блокировки (IP/DNS и т.д.) 
+и генерации правил для MikroTik RouterOS.
 
-### Description
+A Python script for downloading and processing blocklists (IP/DNS etc.) 
+and generating MikroTik RouterOS firewall rules.
 
-This script downloads an archive containing a list of IP addresses in CIDR format, filters valid CIDR networks, and generates firewall rules for Mikrotik devices. The generated rules are saved to a file that can be imported into Mikrotik.
+## Описание
 
-### Features
+Скрипт выполняет следующие функции:
+1. Загружает списки блокировки по URL (поддерживает ZIP архивы и текстовые файлы)
+2. Извлекает и валидирует IP-адреса/подсети
+3. Генерирует файлы с правилами для MikroTik RouterOS в формате `.rsc`
+4. Сохраняет результаты в указанную директорию
 
-- **Download Archive**: Fetches the archive from a specified URL.
-- **Extract Contents**: Extracts the first file from the zip archive and reads its contents.
-- **Filter Valid CIDR Networks**: Checks each line to ensure it is a valid CIDR network.
-- **Generate Firewall Rules**: Creates firewall rules for Mikrotik using the filtered IP addresses.
-- **Logging**: Provides detailed logging of the process, including warnings for invalid IP addresses.
+Конфигурация задаётся через YAML файл.
 
-### Installation
+## Требования
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/ip-firewall-rule-generator.git
-   ```
+- Python 3.7 или новее
+- Установленные зависимости (см. Установка)
 
-2. Install required packages:
-   ```bash
-   pip install requests
-   ```
+## Установка
 
-### Usage
+1. Клонируйте репозиторий или скачайте файлы
+2. Установите зависимости:
+```bash
+pip install requests pyyaml
+```
 
-1. Configure the `config` dictionary in `main.py` with your desired settings.
-   ```python
-   config = {
-       "archive_url": "https://example.com/path/to/archive.zip",
-       "list_name": "blacklisted_ips",
-       "export_file": "./firewall_rules.rsc"
-   }
-   ```
+## Настройка ⚙️
 
-2. Run the script:
-   ```bash
-   python blacklister.py
-   ```
+Создайте файл `config.yaml` в корне проекта. Формат конфигурации:
+```yaml
+blocklists:
+  - name: "example_list"        # Название списка
+    url: "https://example.com/list.zip"  # URL для загрузки
+    format: "zip"               # Опционально: "zip" или "text"
+    output_file: "example.rsc"  # Опционально: имя выходного файла
+```
 
-### Contributing
+## Использование
 
-Contributions are welcome! Please open an issue or submit a pull request.
+Запустите скрипт:
+```bash
+python blacklister.py
+```
 
-## Russian Version
+Параметры запуска:
+- `config_path` - путь к конфигурационному файлу (по умолчанию "config.yaml")
+- `output_dir` - директория для сохранения результатов (по умолчанию "firewall_rules")
 
-### Описание
+Пример:
+```python
+processor = BlocklistProcessor(
+    config_path="custom_config.yaml",
+    output_dir="custom_output_dir"
+)
+```
 
-Этот скрипт загружает архив, содержащий список IP-адресов в формате CIDR, фильтрует допустимые сети и генерирует правила брандмауэра для устройств Mikrotik. Сгенерированные правила сохраняются в файл, который может быть импортирован в Mikrotik.
+## Пример config.yaml
+```yaml
+blocklists:
+  - name: "spamhaus_drop"
+    url: "https://www.spamhaus.org/drop/drop.txt"
+    format: "text"
+    output_file: "spamhaus_drop.rsc"
 
-### Возможности
+  - name: "spamhaus_edrop"
+    url: "https://www.spamhaus.org/drop/edrop.zip"
+    format: "zip"
+```
 
-- **Загрузка Архива**: Загружает архив с указанного URL.
-- **Извлечение Контента**: Извлекает первый файл из zip-архива и читает его содержимое.
-- **Фильтрация CIDR Сетей**: Проверяет каждую строку, чтобы убедиться, что она является допустимой CIDR сетью.
-- **Генерация Правил Брандмауэра**: Создает правила брандмауэра для Mikrotik на основе отфильтрованных IP-адресов.
-- **Логирование**: Ведет подробное логирование процесса, включая предупреждения о недопустимых IP-адресах.
+## Логирование
 
-### Установка
+Скрипт ведёт журнал работы с уровнями:
+- INFO: основные операции
+- WARNING: не критические проблемы
+- ERROR: критические ошибки
 
-1. Клонируйте репозиторий:
-   ```bash
-   git clone https://github.com/amindmobile/blacklister.git
-   ```
+Логи выводятся в консоль.
 
-2. Установите необходимые пакеты:
-   ```bash
-   pip install requests
-   ```
+## Лицензия
 
-### Использование
+Apache License 2.0
 
-1. Настройте словарь `config` в файле `main.py` по вашему усмотрению.
-   ```python
-   config = {
-       "archive_url": "https://example.com/path/to/archive.zip",
-       "list_name": "blacklisted_ips",
-       "export_file": "./firewall_rules.rsc"
-   }
-   ```
+---
 
-2. Запустите скрипт:
-   ```bash
-   python blacklister.py
-   ```
+## Description
 
-### Вклад
+The script performs the following functions:
+1. Downloads blocklists from URLs (supports ZIP archives and text files)
+2. Extracts and validates IP addresses/subnets
+3. Generates MikroTik RouterOS rules in `.rsc` format
+4. Saves results to the specified directory
 
-Вклады приветствуются! Пожалуйста, откройте проблему или отправьте pull request.
+Configuration is set via YAML file.
+
+## Requirements
+
+- Python 3.7+
+- Installed dependencies (see Installation)
+
+## Installation
+
+1. Clone the repository or download files
+2. Install dependencies:
+```bash
+pip install requests pyyaml
+```
+
+## Configuration
+
+Create `config.yaml` in the project root. Configuration format:
+```yaml
+blocklists:
+  - name: "example_list"        # List name
+    url: "https://example.com/list.zip"  # Download URL
+    format: "zip"               # Optional: "zip" or "text"
+    output_file: "example.rsc"  # Optional: output filename
+```
+
+## Usage
+
+Run the script:
+```bash
+python blacklister.py
+```
+
+Parameters:
+- `config_path` - path to config file (default "config.yaml")
+- `output_dir` - output directory (default "firewall_rules")
+
+Example:
+```python
+processor = BlocklistProcessor(
+    config_path="custom_config.yaml",
+    output_dir="custom_output_dir"
+)
+```
+
+## config.yaml example
+```yaml
+blocklists:
+  - name: "spamhaus_drop"
+    url: "https://www.spamhaus.org/drop/drop.txt"
+    format: "text"
+    output_file: "spamhaus_drop.rsc"
+
+  - name: "spamhaus_edrop"
+    url: "https://www.spamhaus.org/drop/edrop.zip"
+    format: "zip"
+```
+
+## Logging
+
+The script maintains operation logs with levels:
+- INFO: main operations
+- WARNING: non-critical issues
+- ERROR: critical errors
+
+Logs are printed to console.
+
+## License
+
+Apache License 2.0
+```

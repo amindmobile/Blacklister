@@ -1,7 +1,11 @@
+# Copyright [2025] [Aleksandr V. Krasilnikov] Licensed under the Apache License, Version 2.0;
 blocklists:
   - name: "bogon"
     url: "http://list.iblocklist.com/?list=lujdnbasfaaixitgmxpp&fileformat=cidr&archiveformat=zip"
     output_file: "bogon.rsc"
+    format: "zip"
+
   - name: "spamhaus"
     url: "https://www.spamhaus.org/drop/drop.txt"
     output_file: "spamhaus.rsc"
+    format: "text"
